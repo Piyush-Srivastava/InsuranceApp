@@ -19,7 +19,7 @@ import { ContactComponent } from './contact/contact.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { DomiciliaryComponent } from './features/reimbursement/domiciliary/domiciliary.component';
 import { HospitalizationComponent } from './features/reimbursement/hospitalization/hospitalization.component';
-import { ClaimTrackerComponent } from './claim-tracker/claim-tracker.component';
+import { ClaimTrackerComponent } from './features/claim-tracker/claim-tracker.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ErrorComponent } from './error/error.component';
 

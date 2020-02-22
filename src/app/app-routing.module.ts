@@ -14,7 +14,7 @@ import { SpecialEventsComponent } from './features/special-events/special-events
 import { PaymentComponent } from './features/payment/payment.component';
 import { DomiciliaryComponent } from './features/reimbursement/domiciliary/domiciliary.component';
 import { HospitalizationComponent } from './features/reimbursement/hospitalization/hospitalization.component';
-import { ClaimTrackerComponent } from './claim-tracker/claim-tracker.component';
+import { ClaimTrackerComponent } from './features/claim-tracker/claim-tracker.component';
 import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
