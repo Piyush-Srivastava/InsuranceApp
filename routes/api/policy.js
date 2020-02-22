@@ -5,11 +5,66 @@ const auth = require("../../middleware/auth");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
+const nodemailer = require("nodemailer");
 
 const PolicyDetails = require("../../models/PolicyDetails");
 const UserDetails = require("../../models/UserDetails");
 const UserPolicy = require("../../models/UserPolicy");
 
+let transport = nodemailer.createTransport({
+  host: "smtp.mailtrap.io",
+  port: 2525,
+  auth: {
+    user: "b3a13cafa09050",
+    pass: "8f052852d3ae8e"
+  }
+});
+
+router.post("/sendEmail", (req, res) => {
+  const message = {
+    from: "elonmusk@tesla.com", // Sender address
+    to: "to@email.com", // List of recipients
+    subject: "Design Your Model S | Tesla", // Subject line
+    text: "Have the most fun you can in a car. Get your Tesla today!" // Plain text body
+  };
+  transport.sendMail(message, function(err, info) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(info);
+      return res.json(info);
+    }
+  });
+});
+
+//when claim is approved
+//reduce policy amount
+router.post("/claim/approved", auth, async (req, res) => {
+  try {
+    const { claimAmount, code, email } = req.body;
+    const userDetail = await UserDetails.findOne({ email });
+
+    const userPolicy = await UserPolicy.findOne({
+      user: userDetail._id
+    });
+    if (userPolicy !== null) {
+      userPolicy.policyDetails.forEach(policyDetail => {
+        if (policyDetail.code === code) {
+          policyDetail.amount >= claimAmount
+            ? (policyDetail.amount = policyDetail.amount - claimAmount)
+            : res.message("not enough insurance balance");
+          userPolicy.save();
+        }
+      });
+      return res.json(userPolicy);
+    } else {
+      return res.send("no such policy for this user");
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("server error");
+  }
+});
 //@route  POST api/auth//login
 // @desc   Authenticate user and get request
 // @access Public
