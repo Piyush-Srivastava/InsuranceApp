@@ -21,7 +21,7 @@
         <a class="nav-link" *ngIf="_authService.loggedIn()" routerLink="/claim-tracker" routerLinkActive="active">Claim Tracker</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" *ngIf="!_authService.loggedIn()" routerLink="/special" routerLinkActive="active">Members</a>
+        <a class="nav-link" *ngIf="_authService.loggedIn()" routerLink="/special" routerLinkActive="active">Policies</a>
       </li>
       <li class="nav-item" >
         <button class="btn btn-secondary dropdown-toggle" *ngIf="_authService.loggedIn()" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
