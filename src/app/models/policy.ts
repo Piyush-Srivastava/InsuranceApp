@@ -9,3 +9,7 @@ export class Policy {
   amount: number;
   __v: number;
 }
+
+export class UserPolicy {
+
+}

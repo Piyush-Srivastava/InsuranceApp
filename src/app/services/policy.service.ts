@@ -9,6 +9,7 @@ export class PolicyService {
   private _eventsUrl = environment.API_URL + 'policy/policyDetailsWithoutJWT';
   private _specialEventsUrl = environment.API_URL + 'policy/policyDetails';
   private _add_policy = environment.API_URL + 'policy/add';
+  private _user_policyies = environment.API_URL + 'policy/userPolicies';
 
   constructor(private http: HttpClient, private auth: AuthService) {}
 
@@ -18,6 +19,11 @@ export class PolicyService {
 
   getPolicies() {
     return this.http.get<Array<Policy>>(this._specialEventsUrl);
+  }
+
+  getUserPolicies() {
+    let url = this._user_policyies + '?email=' + this.auth.loggedinUser.email;
+    return this.http.get(url);
   }
 
   buyPolicy(policy: Policy) {

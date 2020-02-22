@@ -19,7 +19,7 @@ export class PoliciesComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this._eventService.getPolicies().subscribe(
+    this._eventService.getPolicyWithoutJWT().subscribe(
       res => {
         this.policies = res;
       },

@@ -28,7 +28,8 @@ export class AuthService {
   }
 
   logoutUser() {
-    localStorage.removeItem('token');
+    localStorage.clear();
+    this.loggedinUser = null;
     this._router.navigate(['/policies']);
   }
 
