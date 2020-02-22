@@ -7,17 +7,18 @@ import { FormBuilder, FormArray, Validators, FormGroup } from '@angular/forms';
   styleUrls: ['./domiciliary.component.css']
 })
 export class DomiciliaryComponent implements OnInit {
-  public newClaimFormGroup: FormGroup;
+  public newClaimGroup: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit() {
+    this.newForm();
   }
 
   public onSubmit() {}
 
   private newForm() {
-		this.newClaimFormGroup = this.formBuilder.group({
+    this.newClaimGroup = this.formBuilder.group({
       patientName: [null, [Validators.required]],
       email: [null, [Validators.required]],
       mobile: [null, [Validators.required]],
@@ -31,9 +32,7 @@ export class DomiciliaryComponent implements OnInit {
       clinicName: [null, [Validators.required]],
       clinicPinCode: [null, [Validators.required]],
       doctorNo: [null, [Validators.required]],
-      doctorName: [null, [Validators.required]],
-			
+      doctorName: [null, [Validators.required]]
     });
   }
-
 }
