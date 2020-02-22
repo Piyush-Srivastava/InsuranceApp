@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginModel } from '../models/login.model';
 import { AuthService } from '../core/auth.service';
-import { Router } from '@angular/router';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-profile',
@@ -9,17 +8,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  loginUserData: any;
+  loginUserData: User;
 
-  constructor(
-    ) {
-
-    }
+  constructor(private auth: AuthService) {}
 
   ngOnInit() {
-    this.loginUserData=localStorage.getItem('user')
-    console.log(this.loginUserData)
+    this.loginUserData = this.auth.loggedinUser;
   }
-
-
 }

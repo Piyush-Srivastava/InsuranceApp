@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EventService } from '../services/event.service';
+import { PolicyService } from '../services/policy.service';
 import { Policy } from '../models/policy';
 import { AuthService } from '../core/auth.service';
 import { Router } from '@angular/router';
@@ -13,13 +13,13 @@ export class PoliciesComponent implements OnInit {
   policies = [];
 
   constructor(
-    private _eventService: EventService,
+    private _eventService: PolicyService,
     private auth: AuthService,
     private _router: Router
   ) {}
 
   ngOnInit() {
-    this._eventService.getEvents().subscribe(
+    this._eventService.getPolicies().subscribe(
       res => {
         this.policies = res;
       },

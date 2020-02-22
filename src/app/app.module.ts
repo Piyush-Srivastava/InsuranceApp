@@ -12,7 +12,7 @@ import { RegisterComponent } from './auth/register/register.component';
 import { PoliciesComponent } from './policies/policies.component';
 import { SpecialEventsComponent } from './features/special-events/special-events.component';
 import { AuthService } from './core/auth.service';
-import { EventService } from './services/event.service';
+import { PolicyService } from './services/policy.service';
 import { TokenInterceptorService } from './core/token.interceptor';
 import { PaymentComponent } from './features/payment/payment.component';
 import { ContactComponent } from './contact/contact.component';
@@ -47,7 +47,7 @@ import { ErrorComponent } from './error/error.component';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [AuthService, AuthGuard, EventService,
+  providers: [AuthService, AuthGuard, PolicyService,
   {
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptorService,

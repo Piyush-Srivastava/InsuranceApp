@@ -5,14 +5,14 @@ import { environment } from '../../environments/environment';
 import { AuthService } from '../core/auth.service';
 
 @Injectable()
-export class EventService {
+export class PolicyService {
   private _eventsUrl = environment.API_URL + 'policy/policyDetailsWithoutJWT';
   private _specialEventsUrl = environment.API_URL + 'policy/policyDetails';
   private _add_policy = environment.API_URL + 'policy/add';
 
   constructor(private http: HttpClient, private auth: AuthService) {}
 
-  getEvents() {
+  getPolicyWithoutJWT() {
     return this.http.get<any>(this._eventsUrl);
   }
 
