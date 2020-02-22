@@ -79,6 +79,17 @@ router.get("/policyDetails", auth, async (req, res) => {
   }
 });
 
+//get all policies without jwt
+router.get("/policyDetailsWithoutJWT", async (req, res) => {
+  try {
+    const policyDetails = await PolicyDetails.find();
+    res.json(policyDetails);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("server error");
+  }
+});
+
 //to post a policy detail
 router.post("/addpolicy", auth, async (req, res) => {
   try {
