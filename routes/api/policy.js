@@ -57,7 +57,7 @@ router.post(
           if (err) {
             throw err;
           } else {
-            res.json({ token });
+            res.json({ token, user });
           }
         }
       );
