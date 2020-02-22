@@ -1,10 +1,16 @@
-<div class="card rounded-0">
-  <div class="card-header">
-    <h3 class="mb-0">Login</h3>
-  </div>
-  <div class="card-body">
-    <input type="number" [(ngModel)]="finalAmount" style="padding-bottom: 10px;">
-    <h2 *ngIf="paypalLoad">Paypal button is loading</h2>
-    <div id="paypal-checkout-btn"></div>
+<div class="py-5">
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <div class="card rounded-0">
+        <div class="card-header">
+          <h3 class="mb-0">Buy Policy</h3>
+        </div>
+        <div class="card-body">
+          <input type="number" [(ngModel)]="finalAmount" style="padding-bottom: 10px;">
+          <h2 *ngIf="paypalLoad">Paypal button is loading</h2>
+          <div id="paypal-checkout-btn"></div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
