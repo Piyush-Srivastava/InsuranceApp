@@ -1,0 +1,152 @@
+<div class="card mt-5" >
+  <form  [formGroup]="newClaimFormGroup" (ngSubmit)="onSubmit()">
+  <div class="card-header">
+    <b>User and Hospitalization Details
+    </b>
+  </div>
+    
+  
+  <div class="card-body">
+    <h5 class="card-title">Beneficiary Details</h5>
+    
+      <div class="form-row">
+        <div class="col-4">
+Ayushi
+        </div>
+        <div class="col-4">
+          1708060
+                  </div>
+      </div>
+  </div>
+  <div class="card-header ">
+  <b>Beneficiary Details</b>
+  </div>
+  <div class="card-body">
+    <form>
+      <div class="form-row">
+        <div class="col-6">
+          <label for="patientName" class="icon-danger">* </label>
+          <label for="patientName">Patient Name</label>
+    <input type="text" class="form-control" id="patientName" placeholder="patient name" formControlName="patientName">
+    <div *ngIf="newClaimFormGroup.get('patientName').hasError('required') && newClaimGroup.get('patientName').touched" class="text-danger">&nbsp;Required Field</div>
+                                                                       
+        </div>
+        <div class="col-6">
+          <label for="mobile" class="icon-danger">* </label>
+          <label for="mobile">Mobile number</label>
+    <input type="text" class="form-control" id="mobile" placeholder="Enter mobile number">
+    <div *ngIf="newClaimFormGroup.get('mobile').hasError('required') && newClaimGroup.get('mobile').touched" class="text-danger">&nbsp;Required Field</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="col-6">
+          <label for="email" class="icon-danger">* </label>
+          <label for="email">Email</label>
+    <input type="email" class="form-control" id="email" placeholder="Enter eail">
+    <div *ngIf="newClaimFormGroup.get('email').hasError('required') && newClaimGroup.get('email').touched" class="text-danger">&nbsp;Required Field</div>
+        </div>
+
+        <div class="col-6">
+          <label for="patientAge">Patient Age</label>
+    <input type="text" class="form-control" id="patientAge" placeholder="Enter Patient age">
+        </div>
+      </div>
+      
+    </form>
+  </div>
+  <div class="card-header">
+    <b>Bank Details</b>
+    </div>
+    <div class="card-body">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Bank Name</th>
+            <th scope="col">Branch Name</th>
+            <th scope="col">IFSC Code</th>
+            <th scope="col">Location </th>
+            <th scope="col">Account Number </th>
+            <th scope="col">Account Holder Name </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+            <td>Mark</td>
+            <td>Mark</td>
+            <td>Mark</td>
+          </tr>
+         
+         
+        </tbody>
+      </table>
+    </div>
+    <div class="card-header ">
+      <b>Claim details Details</b>
+      </div>
+      <div class="card-body">
+        <h5 class="card-title">All claims should be registered on the portal within 90 days from days of expense </h5>
+        
+          <div class="form-row">
+            <div class="col">
+              <label for="claimType">Type of Claim</label>
+              <select class="form-control" id="nature" >
+                <option selected>-Select-</option>
+            </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-6">
+              <label for="state">State</label>
+        <input type="date" class="form-control" id="state" placeholder="Example input">
+            </div><div class="col-6">
+              <label for="city">City</label>
+        <input type="date" class="form-control" id="endDate" placeholder="Example input">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-6">
+              <label for="hospitalName">Hospital Name</label>
+        <input type="text" class="form-control" id="hospitalName" placeholder="Example input">
+            </div><div class="col-6">
+              <label for="hospitalAddress">Hospital Address</label>
+        <input type="text" class="form-control" id="hospitalAddress" placeholder="Example input">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col">
+              <label for="illnessNature">Nature of illness/disease/accident</label>
+        <input type="text" class="form-control" id="illnessNature" placeholder="Example input">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-6">
+              <label for="doctorName">Doctor Name</label>
+        <input type="text" class="form-control" id="doctorName" placeholder="Example input">
+            </div>
+            <div class="col-6">
+              <label for="registrationNo">Doctor registration Number</label>
+        <input type="text" class="form-control" id="registrationNo" placeholder="Example input">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="col-6">
+              <label for="admissionDate">Date of admission</label>
+        <input type="text" class="form-control" id="admissionDate" placeholder="Example input">
+            </div>
+            <div class="col-6">
+              <label for="dischargeDate">Date of discharge</label>
+        <input type="text" class="form-control" id="dischargeDate" placeholder="Example input">
+            </div>
+          </div>
+        
+      </div>
+      <div class="card-footer">
+        
+        <button  type="submit" class="btn btn-success font-weight-bold" >Submit&nbsp;&nbsp;<i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+    </div>
+  </form>
+</div>

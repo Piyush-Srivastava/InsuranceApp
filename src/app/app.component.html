@@ -1,0 +1,49 @@
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">JMD Insurance app</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" *ngIf="!_authService.loggedIn()"  routerLink="/policies" routerLinkActive="active">Policies</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" *ngIf="_authService.loggedIn()" routerLink="/profile" routerLinkActive="active">Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link"  *ngIf="!_authService.loggedIn()" routerLink="/about-us" routerLinkActive="active">About Us</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" *ngIf="_authService.loggedIn()" routerLink="/claim-tracker" routerLinkActive="active">Claim Tracker</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" *ngIf="!_authService.loggedIn()" routerLink="/special" routerLinkActive="active">Members</a>
+      </li>
+      <li class="nav-item" >
+        <button class="btn btn-secondary dropdown-toggle" *ngIf="_authService.loggedIn()" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Reimbursement
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" routerLink="/domiciliary" href="#">Domiciliary claim submission </a>
+          <a class="dropdown-item" routerLink="/hospitalization" href="#">Hospitalization claim submission</a>
+          
+        </div>
+
+        <!-- <a class="nav-link" *ngIf="_authService.loggedIn()" routerLink="/policies" routerLinkActive="active">Reimbursement</a> -->
+      </li>
+    </ul>
+    <ul class="navbar-nav">
+        <a class="nav-link" *ngIf="!_authService.loggedIn()" routerLink="/login" routerLinkActive="active">Login</a>
+        <a class="nav-link" *ngIf="!_authService.loggedIn()" routerLink="/register" routerLinkActive="active">Register</a>
+        <a class="nav-link" *ngIf="!_authService.loggedIn()" routerLink="/contact" routerLinkActive="active">Contact Us</a>
+        <a class="nav-link" style="cursor:pointer" *ngIf="_authService.loggedIn()" (click)="_authService.logoutUser()">Logout</a>        
+    </ul>
+  </div>
+</nav>    
+<div class="container">
+  <router-outlet></router-outlet>            
+</div>
