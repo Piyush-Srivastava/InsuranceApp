@@ -10,7 +10,7 @@ import { ContactComponent } from './contact/contact.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { ErrorComponent } from './error/error.component';
 
-import { SpecialEventsComponent } from './special-events/special-events.component';
+import { SpecialEventsComponent } from './features/special-events/special-events.component';
 import { PaymentComponent } from './features/payment/payment.component';
 import { DomiciliaryComponent } from './features/reimbursement/domiciliary/domiciliary.component';
 import { HospitalizationComponent } from './features/reimbursement/hospitalization/hospitalization.component';

@@ -10,7 +10,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { PoliciesComponent } from './policies/policies.component';
-import { SpecialEventsComponent } from './special-events/special-events.component';
+import { SpecialEventsComponent } from './features/special-events/special-events.component';
 import { AuthService } from './services/auth.service';
 import { EventService } from './services/event.service';
 import { TokenInterceptorService } from './services/token-interceptor.service';
