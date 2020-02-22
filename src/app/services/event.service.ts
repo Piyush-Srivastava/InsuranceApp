@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Policy } from '../models/policy';
 import { environment } from '../../environments/environment';
+import { AuthService } from '../core/auth.service';
 
 @Injectable()
 export class EventService {
@@ -9,7 +10,7 @@ export class EventService {
   private _specialEventsUrl = environment.API_URL + 'policy/policyDetails';
   private _add_policy = environment.API_URL + 'policy/add';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private auth: AuthService) {}
 
   getEvents() {
     return this.http.get<any>(this._eventsUrl);
@@ -20,17 +21,14 @@ export class EventService {
   }
 
   buyPolicy(policy: Policy) {
-    let user = localStorage.getItem('user');
     const body = {
-      email: JSON.parse(user).email,
+      email: this.auth.loggedinUser.email,
       code: policy.code,
-      name:policy.policyName,
-      description:policy.description,
-      date:policy.date,
-      duration:policy.duration,
-      amount:policy.amount
-
-
+      name: policy.policyName,
+      description: policy.description,
+      date: policy.date,
+      duration: policy.duration,
+      amount: policy.amount
     };
 
     return this.http.post(this._add_policy, body);

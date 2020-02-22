@@ -8,7 +8,7 @@
       <div class="card-footer text-muted">
         <div class="row">
           <div class="col-6">{{policy.amount | currency: 'INR'}}</div>
-          <div class="col-6 text-right"><a href="javascript:void(0)">Buy Policy</a></div>
+          <div class="col-6 text-right"><a href="javascript:void(0)" (click)='buyPolicy(policy)'>Buy Policy</a></div>
         </div>
       </div>
     </div>

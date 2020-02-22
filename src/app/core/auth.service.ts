@@ -9,7 +9,7 @@ import { LoginResponse, LoginModel } from '../models/login.model';
 export class AuthService {
   private _registerUrl = environment.API_URL + 'policy/register';
   private _loginUrl = environment.API_URL + 'policy';
-  private _profileDetails = environment.API_URL + 'policy/userDetails';
+  private _profileDetails = environment.API_URL + 'user/userDetailsByToken ';
 
   loggedinUser: User;
 

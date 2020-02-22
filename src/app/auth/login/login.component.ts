@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../core/auth.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { LoginModel } from '../../models/login.model';
 
 @Component({
@@ -11,18 +11,32 @@ import { LoginModel } from '../../models/login.model';
 export class LoginComponent implements OnInit {
   loginUserData: LoginModel;
 
-  constructor(private _auth: AuthService, private _router: Router) {
+  returnURL: string;
+
+  constructor(
+    private _auth: AuthService,
+    private _router: Router,
+    private route: ActivatedRoute
+  ) {
     this.loginUserData = new LoginModel();
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.route.queryParams.subscribe(params => {
+      this.returnURL = params['returnUrl'];
+    });
+  }
 
   loginUser() {
     this._auth.loginUser(this.loginUserData).subscribe(
       res => {
         localStorage.setItem('token', res.token);
         this._auth.loggedinUser = res.user;
-        this._router.navigate(['/special']);
+        if (this.returnURL) {
+          this._router.navigateByUrl(this.returnURL);
+        } else {
+          this._router.navigate(['/special']);
+        }
       },
       err => console.log(err)
     );
