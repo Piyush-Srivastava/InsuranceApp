@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EventService } from '../event.service';
+import { EventService } from '../services/event.service';
 
 @Component({
   selector: 'app-policies',
@@ -7,16 +7,16 @@ import { EventService } from '../event.service';
   styleUrls: ['./policies.component.css']
 })
 export class PoliciesComponent implements OnInit {
+  policies = [];
 
-  events = []
-  constructor(private _eventService: EventService) { }
+  constructor(private _eventService: EventService) {}
 
   ngOnInit() {
-    this._eventService.getEvents()
-      .subscribe(
-        res => this.events = res,
-        err => console.log(err)
-      )
+    this._eventService.getEvents().subscribe(
+      res => {
+        this.policies = res;
+      },
+      err => console.log(err)
+    );
   }
-
 }

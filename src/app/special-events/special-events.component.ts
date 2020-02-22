@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EventService } from '../event.service';
+import { EventService } from '../services/event.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router'
 import { Policy } from '../models/policy';

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth.service';
+import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router'
 
 @Component({
@@ -24,7 +24,7 @@ export class RegisterComponent implements OnInit {
         this._router.navigate(['/special'])
       },
       err => console.log(err)
-    )      
+    )
   }
 
 
