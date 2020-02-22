@@ -12,6 +12,7 @@ import { DomiciliaryComponent } from './domiciliary/domiciliary.component';
 import { HospitalizationComponent } from './hospitalization/hospitalization.component';
 import { ClaimTrackerComponent } from './claim-tracker/claim-tracker.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ErrorComponent } from './error/error.component';
 
 const routes: Routes = [
   {
@@ -59,6 +60,10 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegisterComponent
+  },
+  {
+    path: 'error',
+    component: ErrorComponent
   },
   {
     path: '',

@@ -20,12 +20,8 @@ export class LoginComponent implements OnInit {
   loginUser() {
     this._auth.loginUser(this.loginUserData).subscribe(
       res => {
-        let userData=res.user
-        console.log(userData)
         localStorage.setItem('token', res.token);
-        localStorage.setItem('user', userData);
-        console.log(res)
-        console.log(res.user)
+        this._auth.loggedinUser = res.user;
         this._router.navigate(['/special']);
       },
       err => console.log(err)

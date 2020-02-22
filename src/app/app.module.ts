@@ -21,6 +21,7 @@ import { DomiciliaryComponent } from './domiciliary/domiciliary.component';
 import { HospitalizationComponent } from './hospitalization/hospitalization.component';
 import { ClaimTrackerComponent } from './claim-tracker/claim-tracker.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ErrorComponent } from './error/error.component';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { ProfileComponent } from './profile/profile.component';
     DomiciliaryComponent,
     HospitalizationComponent,
     ClaimTrackerComponent,
-    ProfileComponent
+    ProfileComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
