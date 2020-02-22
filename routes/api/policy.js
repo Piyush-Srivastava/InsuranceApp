@@ -2,12 +2,73 @@ const express = require("express");
 const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const auth = require("../../middleware/auth");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const config = require("config");
 
 const PolicyDetails = require("../../models/PolicyDetails");
 const UserDetails = require("../../models/UserDetails");
 const UserPolicy = require("../../models/UserPolicy");
 
-//get all polocies
+//@route  POST api/auth
+// @desc   Authenticate user and get request
+// @access Public
+router.post(
+  "/",
+  [
+    check("email", "Please include a valid email").isEmail(),
+    check("password", "Password is required").exists()
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { email, password } = req.body;
+
+    try {
+      // check if user exist
+      let user = await UserDetails.findOne({ email });
+
+      if (!user) {
+        res.status(400).json({ errors: [{ msg: "Invalid credentials " }] });
+      }
+
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: "Invalid credentials" }] });
+      }
+
+      // return jsonwebtoken
+      const payload = {
+        user: {
+          id: user.id
+        }
+      };
+
+      jwt.sign(
+        payload,
+        config.get("jwtSecret"),
+        { expiresIn: 3600 },
+        (err, token) => {
+          if (err) {
+            throw err;
+          } else {
+            res.json({ token });
+          }
+        }
+      );
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("server error");
+    }
+  }
+);
+
+//get all policies
 router.get("/policyDetails", auth, async (req, res) => {
   try {
     const policyDetails = await PolicyDetails.find();
@@ -49,39 +110,101 @@ router.get("/userDetails/:id", async (req, res) => {
   //   }
 });
 
-//to post a user detail for a user
-router.post("/userDetails", auth, async (req, res) => {
-  try {
-    const newUserDetail = new UserDetails({
-      email: req.body.email,
-      Gender: req.body.Gender,
-      DateOfBirth: req.body.DateOfBirth,
-      contactNumber: req.body.contactNumber,
-      policyDetails: req.body.policyDetails
-    });
-    const userDetail = await newUserDetail.save();
-    res.json(userDetail);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send("server error");
+// @route  POST api/users
+// @desc   Register User
+// @access Public
+router.post(
+  "/register",
+  [
+    check("name", "Name is required")
+      .not()
+      .isEmpty(),
+    check("email", "Please include a valid email").isEmail(),
+    check("password", "please enter a password of more than 6 words").isLength({
+      min: 6
+    })
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const {
+      name,
+      email,
+      password,
+      Gender,
+      DateOfBirth,
+      contactNumber
+    } = req.body;
+
+    try {
+      // check if user exist
+      let user = await UserDetails.findOne({ email });
+
+      if (user) {
+        return res
+          .status(400)
+          .json({ errors: [{ msg: "user already exist " }] });
+      }
+
+      user = new UserDetails({
+        name,
+        email,
+        password,
+        Gender,
+        DateOfBirth,
+        contactNumber
+      });
+
+      // encrypt password
+      const salt = await bcrypt.genSalt(10);
+      user.password = await bcrypt.hash(password, salt);
+      console.log("saved");
+      await user.save();
+
+      // return jsonwebtoken
+      const payload = {
+        user: {
+          id: user.id
+        }
+      };
+
+      jwt.sign(
+        payload,
+        config.get("jwtSecret"),
+        { expiresIn: 3600 },
+        (err, token) => {
+          if (err) {
+            throw err;
+          } else {
+            res.json({ token });
+          }
+        }
+      );
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send("server error");
+    }
   }
-});
+);
 
 //to add a policy detail for a user
 router.post("/add", auth, async (req, res) => {
   try {
     const { email, code } = req.body;
-    const policyDetail = await PolicyDetails.find({ code: code });
+    const policyDetail = await PolicyDetails.findOne({ code });
 
-    const userDetail = await UserDetails.find({ email: email });
+    const userDetail = await UserDetails.findOne({ email });
 
     const newUserPolicy = await new UserPolicy({
-      user: userDetail,
-      policyDetails: policyDetail
+      user: userDetail._id,
+      policyDetails: policyDetail._id
     });
 
     const userPolicy = newUserPolicy.save();
-    res.json(userPolicy);
+    return res.json(userPolicy);
   } catch (err) {
     console.error(err.message);
     res.status(500).send("server error");
