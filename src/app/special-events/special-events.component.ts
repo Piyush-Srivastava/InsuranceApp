@@ -35,6 +35,7 @@ export class SpecialEventsComponent implements OnInit {
   }
 
   buyPolicy(policy: Policy) {
+    console.log(Policy)
     this._router.navigate(['/payment'], {
       queryParams: {
         id: policy._id

@@ -23,7 +23,14 @@ export class EventService {
     let user = localStorage.getItem('user');
     const body = {
       email: JSON.parse(user).email,
-      code: policy.code
+      code: policy.code,
+      name:policy.policyName,
+      description:policy.description,
+      date:policy.date,
+      duration:policy.duration,
+      amount:policy.amount
+
+
     };
 
     return this.http.post(this._add_policy, body);

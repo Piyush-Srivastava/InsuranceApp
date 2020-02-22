@@ -4,6 +4,8 @@ export class Policy {
   code: string;
   description: string;
   status: number;
+  duration:number;
+  date:string;
   amount: number;
   __v: number;
 }
