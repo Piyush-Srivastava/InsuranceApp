@@ -21,23 +21,6 @@ let transport = nodemailer.createTransport({
   }
 });
 
-router.post("/sendEmail", (req, res) => {
-  const message = {
-    from: "elonmusk@tesla.com", // Sender address
-    to: "to@email.com", // List of recipients
-    subject: "Design Your Model S | Tesla", // Subject line
-    text: "Have the most fun you can in a car. Get your Tesla today!" // Plain text body
-  };
-  transport.sendMail(message, function(err, info) {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(info);
-      return res.json(info);
-    }
-  });
-});
-
 //when claim is approved
 //reduce policy amount
 router.post("/claim/approved", auth, async (req, res) => {
@@ -45,9 +28,11 @@ router.post("/claim/approved", auth, async (req, res) => {
     const { claimAmount, code, email } = req.body;
     const userDetail = await UserDetails.findOne({ email });
 
+    console.log(userDetail._id);
     const userPolicy = await UserPolicy.findOne({
       user: userDetail._id
     });
+    console.log(userPolicy);
     if (userPolicy !== null) {
       userPolicy.policyDetails.forEach(policyDetail => {
         if (policyDetail.code === code) {
@@ -55,6 +40,21 @@ router.post("/claim/approved", auth, async (req, res) => {
             ? (policyDetail.amount = policyDetail.amount - claimAmount)
             : res.message("not enough insurance balance");
           userPolicy.save();
+        }
+      });
+
+      const message = {
+        from: "JMD Insurance App", // Sender address
+        to: email, // List of recipients
+        subject: `Policy Claim for Policy ${code} Approved`, // Subject line
+        html: `<p>Hi, Your claim for policy ${code} has been approved.` // Plain text body
+      };
+      transport.sendMail(message, function(err, info) {
+        if (err) {
+          console.log(err);
+        } else {
+          console.log(info);
+          return res.json(info);
         }
       });
       return res.json(userPolicy);
