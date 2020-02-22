@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginModel } from '../models/login.model';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../core/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -12,14 +12,14 @@ export class ProfileComponent implements OnInit {
   loginUserData: any;
 
   constructor(
-    ) { 
-     
+    ) {
+
     }
 
   ngOnInit() {
     this.loginUserData=localStorage.getItem('user')
     console.log(this.loginUserData)
   }
-  
-  
+
+
 }

@@ -1,4 +1,4 @@
-import { AuthGuard } from './auth.guard';
+import { AuthGuard } from './core/auth.guard';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -11,9 +11,9 @@ import { LoginComponent } from './auth/login/login.component';
 import { RegisterComponent } from './auth/register/register.component';
 import { PoliciesComponent } from './policies/policies.component';
 import { SpecialEventsComponent } from './features/special-events/special-events.component';
-import { AuthService } from './services/auth.service';
+import { AuthService } from './core/auth.service';
 import { EventService } from './services/event.service';
-import { TokenInterceptorService } from './services/token-interceptor.service';
+import { TokenInterceptorService } from './core/token.interceptor';
 import { PaymentComponent } from './features/payment/payment.component';
 import { ContactComponent } from './contact/contact.component';
 import { AboutUsComponent } from './about-us/about-us.component';
