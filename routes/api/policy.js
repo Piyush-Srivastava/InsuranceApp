@@ -10,7 +10,7 @@ const PolicyDetails = require("../../models/PolicyDetails");
 const UserDetails = require("../../models/UserDetails");
 const UserPolicy = require("../../models/UserPolicy");
 
-//@route  POST api/auth
+//@route  POST api/auth//login
 // @desc   Authenticate user and get request
 // @access Public
 router.post(

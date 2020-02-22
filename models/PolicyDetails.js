@@ -16,7 +16,7 @@ const policyDetailsSchema = mongoose.Schema({
     type: String,
     required: true
   },
-  status: {
+  duration: {
     type: Number,
     required: true
   },
