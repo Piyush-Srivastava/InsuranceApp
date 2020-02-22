@@ -24,4 +24,17 @@ router.get("/userDetails", auth, async (req, res) => {
   }
 });
 
+router.get("/userDetailsByToken", async (req, res) => {
+  try {
+    const jwtToken = req.header("x-auth-token");
+    const decoded = jwt.verify(jwtToken, config.get("jwtSecret"));
+    let userId = decoded.user.id;
+    const userDetails = await UserDetails.findOne({ _id: userId });
+
+    return res.json(userDetails);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("server error");
+  }
+});
 module.exports = router;

@@ -316,4 +316,55 @@ router.post("/add", auth, async (req, res) => {
   }
 });
 
+//when claim
+router.post("/claim", auth, async (req, res) => {
+  try {
+    const {
+      email,
+      nature,
+      clinicPinCode,
+      description,
+      startDate,
+      endDate,
+      regNo,
+      doctorName,
+      clinicName
+    } = req.body;
+    const claimDetail = {
+      nature: nature,
+      clinicPinCode: clinicPinCode,
+      description: description,
+      startDate: startDate,
+      endDate: endDate,
+      regNo: regNo,
+      doctorName: doctorName,
+      clinicName: clinicName
+    };
+
+    const userDetail = await UserDetails.findOne({ email });
+
+    const userClaim = await UserClaim.findOne({
+      user: userDetail._id
+    });
+
+    if (userClaim != null && userClaim.length !== 0) {
+      userClaim.claimDetails.push(claimDetail);
+      const userClaim1 = userClaim.save();
+      return res.json(userClaim1);
+    } else {
+      const newUserClaim = new UserClaim({
+        user: userDetail._id,
+        claimDetails: claimDetail
+      });
+      const userclaim = newUserClaim.save();
+      return res.json(userclaim);
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("server error");
+  }
+});
+
+// router.get("/UserDetails")
+
 module.exports = router;
