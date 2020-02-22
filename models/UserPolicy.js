@@ -7,10 +7,35 @@ const userPolicySchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "userDetails"
   },
-  policyDetails: {
-    type: Schema.Types.ObjectId,
-    ref: "policyDetails"
-  }
+  policyDetails: [
+    {
+      policyName: {
+        type: String,
+        required: true
+      },
+
+      code: {
+        type: String,
+        required: true
+      },
+      description: {
+        type: String,
+        required: true
+      },
+      date: {
+        type: Date,
+        required: true
+      },
+      duration: {
+        type: Number,
+        required: true
+      },
+      amount: {
+        type: Number,
+        required: true
+      }
+    }
+  ]
 });
 
 module.exports = mongoose.model("userPolicy", userPolicySchema);

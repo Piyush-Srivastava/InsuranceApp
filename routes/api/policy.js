@@ -212,20 +212,49 @@ router.post(
 );
 
 //to add a policy detail for a user
+//to add a policy detail for a user
 router.post("/add", auth, async (req, res) => {
   try {
-    const { email, code } = req.body;
-    const policyDetail = await PolicyDetails.findOne({ code });
+    const {
+      email,
+      policyName,
+      code,
+      description,
+      date,
+      duration,
+      amount
+    } = req.body;
+    const policyDetail = {
+      policyName: policyName,
+      code: code,
+      description: description,
+      date: date,
+      duration: duration,
+      amount: amount
+    };
 
     const userDetail = await UserDetails.findOne({ email });
 
-    const newUserPolicy = await new UserPolicy({
-      user: userDetail._id,
-      policyDetails: policyDetail._id
+    const userPolicy = await UserPolicy.findOne({
+      user: userDetail._id
+      //policyDetails: policyDetail._id
     });
 
-    const userPolicy = newUserPolicy.save();
-    return res.json(userPolicy);
+    if (userPolicy != null && userPolicy.length !== 0) {
+      console.log("if");
+      console.log(userPolicy);
+      userPolicy.policyDetails.push(policyDetail);
+      console.log(userPolicy);
+      const userPolicy1 = userPolicy.save();
+      return res.json(userPolicy1);
+    } else {
+      const newUserPolicy = new UserPolicy({
+        user: userDetail._id,
+        policyDetails: policyDetail
+      });
+      const userpolicy = newUserPolicy.save();
+      return res.json(userpolicy);
+    }
   } catch (err) {
     console.error(err.message);
     res.status(500).send("server error");
