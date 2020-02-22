@@ -2,7 +2,7 @@ const express = require("express");
 const connectDB = require("./config/db");
 const Form = require("./models/Form");
 const FormDetails = require("./models/FormDetails");
-
+const cors = require("cors");
 const app = express();
 
 // connect database
@@ -10,7 +10,7 @@ connectDB();
 
 // Init middleware
 app.use(express.json({ extended: false }));
-
+app.use(cors());
 app.get("/", (req, res) => res.send("API running"));
 
 // Define routes

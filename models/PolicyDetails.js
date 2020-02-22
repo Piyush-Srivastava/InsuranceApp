@@ -19,6 +19,10 @@ const policyDetailsSchema = mongoose.Schema({
   status: {
     type: Number,
     required: true
+  },
+  amount: {
+    type: Number,
+    required: true
   }
 });
 

@@ -80,13 +80,14 @@ router.get("/policyDetails", auth, async (req, res) => {
 });
 
 //to post a policy detail
-router.post("/policyDetails", auth, async (req, res) => {
+router.post("/addpolicy", auth, async (req, res) => {
   try {
     const newPolicyDetail = new PolicyDetails({
       policyName: req.body.policyName,
       code: req.body.code,
       description: req.body.description,
-      status: req.body.status
+      status: req.body.status,
+      amount: req.body.amount
     });
     const policyDetail = await newPolicyDetail.save();
     res.json(policyDetail);
@@ -97,17 +98,26 @@ router.post("/policyDetails", auth, async (req, res) => {
 });
 
 //get all policies of logged in user
-router.get("/userDetails/:id", async (req, res) => {
-  console.log(req.params.id);
-  //   try {
-  //     const userDetails = await UserDetails.findOne({
-  //       email: req.params.emailId
-  //     });
-  //     res.json(userDetails);
-  //   } catch (err) {
-  //     console.log(err.message);
-  //     res.status(500).send("server error");
-  //   }
+router.get("/userPolicies/", auth, async (req, res) => {
+  try {
+    const userDetails = await UserDetails.findOne({
+      email: req.query.email
+    });
+
+    const user = userDetails._id;
+    const userPolicies = await UserPolicy.find({ user });
+    const policies = [];
+
+    userPolicies.forEach(async userPolicy => {
+      let policyDetail = await PolicyDetails.findById(userPolicy.policyDetails);
+      policies.push(policyDetail);
+    });
+
+    res.json(policies);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("server error");
+  }
 });
 
 // @route  POST api/users
