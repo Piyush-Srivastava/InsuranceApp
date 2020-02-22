@@ -11,7 +11,7 @@ export class TokenInterceptorService implements HttpInterceptor {
     let token = authService.getToken();
     if (token) {
       let tokenizedReq = req.clone({
-        headers: req.headers.set('X-Auth-Token')
+        headers: req.headers.set('X-Auth-Token', authService.getToken())
       });
       return next.handle(tokenizedReq);
     } else {
