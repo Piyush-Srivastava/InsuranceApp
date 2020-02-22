@@ -1,5 +1,5 @@
 <div class="row mt-5">
-  <div class="col-3">
+  <div class="col-5">
     <div class="card">
       <div class="card-header">
         User Details
@@ -21,7 +21,7 @@
           <tbody>
             <tr>
               <th scope="row">DOB:</th>
-              <td>{{loginUserData.DateOfBirth}}</td>
+              <td>{{loginUserData.DateOfBirth | date : 'shortDate'}}</td>
             </tr>
           </tbody>
           <tbody>
@@ -47,7 +47,7 @@
     </div>
   </div>
 
-  <div class="col-8">
+  <div class="col-7">
     <div class="card">
       <div class="card-header">
         Purchased Policies
