@@ -10,6 +10,7 @@ const nodemailer = require("nodemailer");
 const PolicyDetails = require("../../models/PolicyDetails");
 const UserDetails = require("../../models/UserDetails");
 const UserPolicy = require("../../models/UserPolicy");
+const UserClaim = require("../../models/UserClaim");
 
 let transport = nodemailer.createTransport({
   host: "smtp.mailtrap.io",
@@ -171,15 +172,8 @@ router.get("/userPolicies/", auth, async (req, res) => {
     });
 
     const user = userDetails._id;
-    const userPolicies = await UserPolicy.find({ user });
-    const policies = [];
-
-    userPolicies.forEach(async userPolicy => {
-      let policyDetail = await PolicyDetails.findById(userPolicy.policyDetails);
-      policies.push(policyDetail);
-    });
-
-    res.json(policies);
+    const userPolicies = await UserPolicy.findOne({ user });
+    res.json(userPolicies.policyDetails);
   } catch (err) {
     console.log(err.message);
     res.status(500).send("server error");
@@ -328,7 +322,8 @@ router.post("/claim", auth, async (req, res) => {
       endDate,
       regNo,
       doctorName,
-      clinicName
+      clinicName,
+      claimedAmount
     } = req.body;
     const claimDetail = {
       nature: nature,
@@ -338,7 +333,8 @@ router.post("/claim", auth, async (req, res) => {
       endDate: endDate,
       regNo: regNo,
       doctorName: doctorName,
-      clinicName: clinicName
+      clinicName: clinicName,
+      claimedAmount: claimedAmount
     };
 
     const userDetail = await UserDetails.findOne({ email });
