@@ -23,6 +23,10 @@ const policyDetailsSchema = mongoose.Schema({
   amount: {
     type: Number,
     required: true
+  },
+  coverage: {
+    type: Number,
+    required: true
   }
 });
 

@@ -11,6 +11,8 @@ const PolicyDetails = require("../../models/PolicyDetails");
 const UserDetails = require("../../models/UserDetails");
 const UserPolicy = require("../../models/UserPolicy");
 const UserClaim = require("../../models/UserClaim");
+const TaxDetails = require("../../models/TaxDetails");
+const HospitalDetails = require("../../models/HospitalDetails");
 
 let transport = nodemailer.createTransport({
   host: "smtp.mailtrap.io",
@@ -28,16 +30,14 @@ router.post("/claim/approved", auth, async (req, res) => {
     const { claimAmount, code, email } = req.body;
     const userDetail = await UserDetails.findOne({ email });
 
-    console.log(userDetail._id);
     const userPolicy = await UserPolicy.findOne({
       user: userDetail._id
     });
-    console.log(userPolicy);
     if (userPolicy !== null) {
       userPolicy.policyDetails.forEach(policyDetail => {
         if (policyDetail.code === code) {
-          policyDetail.amount >= claimAmount
-            ? (policyDetail.amount = policyDetail.amount - claimAmount)
+          policyDetail.coverage >= claimAmount
+            ? (policyDetail.coverage = policyDetail.coverage - claimAmount)
             : res.message("not enough insurance balance");
           userPolicy.save();
         }
@@ -271,7 +271,8 @@ router.post("/add", auth, async (req, res) => {
       description,
       date,
       duration,
-      amount
+      amount,
+      coverage
     } = req.body;
     const policyDetail = {
       policyName: policyName,
@@ -279,7 +280,8 @@ router.post("/add", auth, async (req, res) => {
       description: description,
       date: date,
       duration: duration,
-      amount: amount
+      amount: amount,
+      coverage: coverage
     };
 
     const userDetail = await UserDetails.findOne({ email });
@@ -315,6 +317,7 @@ router.post("/claim", auth, async (req, res) => {
   try {
     const {
       email,
+      code,
       nature,
       clinicPinCode,
       description,
@@ -323,9 +326,11 @@ router.post("/claim", auth, async (req, res) => {
       regNo,
       doctorName,
       clinicName,
-      claimedAmount
+      claimAmount,
+      status
     } = req.body;
     const claimDetail = {
+      code: code,
       nature: nature,
       clinicPinCode: clinicPinCode,
       description: description,
@@ -334,7 +339,8 @@ router.post("/claim", auth, async (req, res) => {
       regNo: regNo,
       doctorName: doctorName,
       clinicName: clinicName,
-      claimedAmount: claimedAmount
+      claimAmount: claimAmount,
+      status: status
     };
 
     const userDetail = await UserDetails.findOne({ email });
@@ -343,17 +349,144 @@ router.post("/claim", auth, async (req, res) => {
       user: userDetail._id
     });
 
-    if (userClaim != null && userClaim.length !== 0) {
-      userClaim.claimDetails.push(claimDetail);
-      const userClaim1 = userClaim.save();
-      return res.json(userClaim1);
+    const userPolicy = await UserPolicy.findOne({
+      user: userDetail._id
+    });
+    userPolicy.policyDetails.forEach(policyDetail => {
+      if (policyDetail.code === code) {
+        if (policyDetail.coverage <= claimAmount) {
+          return res.send("claim amount is more than the coverage");
+        }
+      }
+    });
+
+    let approved = false;
+    const hospitalDetails = await HospitalDetails.findOne({ regNo });
+    console.log(
+      regNo +
+        " " +
+        nature +
+        " " +
+        clinicName +
+        " " +
+        claimAmount +
+        " " +
+        startDate +
+        " " +
+        endDate +
+        " " +
+        doctorName
+    );
+
+    if (hospitalDetails !== null) {
+      if (
+        hospitalDetails.nature === nature &&
+        hospitalDetails.clinicName === clinicName &&
+        hospitalDetails.billAmount === claimAmount &&
+        hospitalDetails.doctorName === doctorName
+      ) {
+        approved = true;
+        claimDetail.status = 1;
+
+        if (userPolicy !== null) {
+          userPolicy.policyDetails.forEach(policyDetail => {
+            if (policyDetail.code === code) {
+              policyDetail.coverage >= claimAmount
+                ? (policyDetail.coverage = policyDetail.coverage - claimAmount)
+                : res.message("not enough insurance balance");
+              userPolicy.save();
+            }
+          });
+          res.send(
+            "exact details match with the hospital records, hence claim approved"
+          );
+          const message = {
+            from: "JMD Insurance App", // Sender address
+            to: email, // List of recipients
+            subject: `Policy Claim for Policy ${code} Approved`, // Subject line
+            html: `<p>Hi, Your claim for policy ${code} has been approved.` // Plain text body
+          };
+          transport.sendMail(message, function(err, info) {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(info);
+              return res.json(info);
+            }
+          });
+        } else {
+          const message = {
+            from: "JMD Insurance App", // Sender address
+            to: email, // List of recipients
+            subject: `Policy Claim for Policy ${code} Rejected`, // Subject line
+            html: `<p>Hi, Your claim for policy ${code} has been rejected.` // Plain text body
+          };
+          transport.sendMail(message, function(err, info) {
+            if (err) {
+              console.log(err);
+            } else {
+              console.log(info);
+              return res.json(info);
+            }
+          });
+          claimDetail.status = 0;
+          res.send(
+            "exact details do not match with the hospital records, claim rejected"
+          );
+        }
+      } else {
+        const message = {
+          from: "JMD Insurance App", // Sender address
+          to: email, // List of recipients
+          subject: `Policy Claim for Policy ${code} Rejected`, // Subject line
+          html: `<p>Hi, Your claim for policy ${code} has been rejected.` // Plain text body
+        };
+        transport.sendMail(message, function(err, info) {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log(info);
+            return res.json(info);
+          }
+        });
+        claimDetail.status = 0;
+        res.send(
+          "exact details do not match with the hospital records, claim rejected"
+        );
+      }
+
+      if (userClaim != null && userClaim.length !== 0) {
+        userClaim.claimDetails.push(claimDetail);
+        const userClaim1 = userClaim.save();
+        return res.json(userClaim1);
+      } else {
+        const newUserClaim = new UserClaim({
+          user: userDetail._id,
+          claimDetails: claimDetail
+        });
+        const userclaim = newUserClaim.save();
+      }
+      return res.json(approved);
+    }
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("server error");
+  }
+});
+//tax deduction
+router.post("/tax/deduction", auth, async (req, res) => {
+  try {
+    const { email, policyAmount } = req.body;
+    const userDetail = await UserDetails.findOne({ email });
+    const taxDetails = await TaxDetails.findOne({
+      user: userDetail._id
+    });
+    if (taxDetails != null) {
+      taxDetails.taxableAmount = taxDetails.taxableAmount - policyAmount;
+      taxDetails.save();
+      return res.json(taxDetails);
     } else {
-      const newUserClaim = new UserClaim({
-        user: userDetail._id,
-        claimDetails: claimDetail
-      });
-      const userclaim = newUserClaim.save();
-      return res.json(userclaim);
+      return res.send("tax details could not be found");
     }
   } catch (err) {
     console.error(err.message);
@@ -361,6 +494,70 @@ router.post("/claim", auth, async (req, res) => {
   }
 });
 
-// router.get("/UserDetails")
+//tax add
+router.post("/tax/add", auth, async (req, res) => {
+  try {
+    const { email, panCardNo, taxableAmount, annualIncome } = req.body;
+    const userDetail = await UserDetails.findOne({ email });
+    const newTaxDetails = await new TaxDetails({
+      user: userDetail._id,
+      panCardNo,
+      taxableAmount,
+      annualIncome
+    });
+    const taxDetails = await newTaxDetails.save();
+    return res.json(taxDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("server error");
+  }
+});
+
+//hospitalDetails add
+router.post("/hospitalDetails/add", auth, async (req, res) => {
+  try {
+    const {
+      nature,
+      regNo,
+      patientName,
+      clinicName,
+      doctorName,
+      billAmount,
+      startDate,
+      endDate
+    } = req.body;
+    const newHospitalDetails = await new HospitalDetails({
+      nature,
+      regNo,
+      patientName,
+      clinicName,
+      doctorName,
+      billAmount,
+      startDate,
+      endDate
+    });
+    const hospitalDetails = await newHospitalDetails.save();
+    return res.json(hospitalDetails);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("server error");
+  }
+});
+
+//get all claims of logged in user
+router.get("/userClaims/", auth, async (req, res) => {
+  try {
+    const userDetails = await UserDetails.findOne({
+      email: req.query.email
+    });
+
+    const user = userDetails._id;
+    const userClaims = await UserClaim.findOne({ user });
+    res.json(userClaims.claimDetails);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("server error");
+  }
+});
 
 module.exports = router;

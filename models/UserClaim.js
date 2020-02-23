@@ -9,6 +9,10 @@ const userClaimSchema = new Schema({
   },
   claimDetails: [
     {
+      code: {
+        type: String,
+        required: true
+      },
       nature: {
         type: String,
         required: true
@@ -42,9 +46,12 @@ const userClaimSchema = new Schema({
         type: String,
         required: true
       },
-      claimedAmount: {
+      claimAmount: {
         type: Number,
         required: true
+      },
+      status: {
+        type: Number
       }
     }
   ]

@@ -33,6 +33,10 @@ const userPolicySchema = new Schema({
       amount: {
         type: Number,
         required: true
+      },
+      coverage: {
+        type: Number,
+        required: true
       }
     }
   ]
