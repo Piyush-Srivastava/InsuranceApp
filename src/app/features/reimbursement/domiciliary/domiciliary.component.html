@@ -1,4 +1,5 @@
 <div class="card mt-5">
+  <ng2-toasty></ng2-toasty>
   <form [formGroup]="newClaimGroup" (ngSubmit)="onSubmit()">
     <div class="card-header">
       <b>User and Hospitalization Details
@@ -10,11 +11,14 @@
       <h5 class="card-title">Beneficiary Details</h5>
 
       <div class="form-row">
-        <div class="col-4">
-          Ayushi
+        <div class="col-3">
+         {{loginUserData.name}}
         </div>
-        <div class="col-4">
-          1708060
+        <div class="col-3">
+          {{loginUserData.email}}
+        </div>
+        <div class="col-3">
+          {{loginUserData.contactNumber}}
         </div>
       </div>
     </div>
@@ -23,83 +27,29 @@
     </div>
     <div class="card-body">
       <div>
-        <div class="form-row">
-          <div class="col-6">
-            <label for="patientName" class="icon-danger">* </label>
-            <label for="patientName">Patient Name</label>
-            <input type="text" class="form-control" id="patientName" placeholder="patient name"
-              formControlName="patientName">
-            <div
-              *ngIf="newClaimGroup.get('patientName').hasError('required') && newClaimGroup.get('patientName').touched"
-              class="text-danger">&nbsp;Required Field</div>
-
-          </div>
-          <div class="col-6">
-            <label for="relationship">Relationship with Employee</label>
-            <input type="text" class="form-control" id="relationship" placeholder="Relationship with employee">
-
-          </div>
-        </div>
+       
         <div class="form-row">
           <div class="col-6">
             <label for="email" class="icon-danger">* </label>
             <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" placeholder="Enter eail">
+            <input type="email" class="form-control" id="email" formControlName="email" placeholder="Enter eail">
             <div *ngIf="newClaimGroup.get('email').hasError('required') && newClaimGroup.get('email').touched"
               class="text-danger">&nbsp;Required Field</div>
           </div>
           <div class="col-6">
             <label for="mobile" class="icon-danger">* </label>
-            <label for="mobile">Mobile number</label>
-            <input type="text" class="form-control" id="mobile" placeholder="Enter mobile number">
-            <div *ngIf="newClaimGroup.get('mobile').hasError('required') && newClaimGroup.get('mobile').touched"
+            <label for="code">Code</label>
+            <input type="text" class="form-control" id="code" formControlName="code" placeholder="Enter code">
+            <div *ngIf="newClaimGroup.get('code').hasError('required') && newClaimGroup.get('mobile').touched"
               class="text-danger">&nbsp;Required Field</div>
           </div>
         </div>
-        <div class="form-row">
-          <div class="col-6">
-            <label for="patientAge">Patient Age</label>
-            <input type="text" class="form-control" id="patientAge" placeholder="Enter Patient age">
-          </div>
-          <div class="col-6">
-            <label for="domiBalance">Domi Balance</label>
-            <input type="text" class="form-control" id="domiBalance" placeholder="">
-          </div>
-        </div>
+        
       </div>
     </div>
-    <div class="card-header">
-      <b>Bank Details</b>
-    </div>
-    <div class="card-body">
-      <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Bank Name</th>
-            <th scope="col">Branch Name</th>
-            <th scope="col">IFSC Code</th>
-            <th scope="col">Location </th>
-            <th scope="col">Account Number </th>
-            <th scope="col">Account Holder Name </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-            <td>Mark</td>
-            <td>Mark</td>
-            <td>Mark</td>
-          </tr>
-
-
-        </tbody>
-      </table>
-    </div>
+    
     <div class="card-header ">
-      <b>Claim details Details</b>
+      <b>Claim  Details</b>
     </div>
     <div class="card-body">
       <h5 class="card-title">All claims should be registered on the portal within 90 days from days of expense </h5>
@@ -107,50 +57,57 @@
       <div class="form-row">
         <div class="col-6">
           <label for="nature">Nature of illness/accident/disease</label>
-          <select class="form-control" id="nature">
-            <option selected>-Select-</option>
-          </select>
+          <input type="text" class="form-control" id="nature" formControlName="nature"> 
         </div>
         <div class="col-6">
           <label for="description">Description of illness/accident/disease</label>
-          <input type="text" class="form-control" id="description" placeholder="Example input">
+          <input type="text" class="form-control" id="description" formControlName="description" placeholder="Disease description">
         </div>
       </div>
       <div class="form-row">
         <div class="col-6">
           <label for="startDate">Treatment Start Date</label>
-          <input type="date" class="form-control" id="startDate" placeholder="Example input">
+          <input type="date" class="form-control" id="startDate" formControlName="startDate" placeholder="Example input">
         </div>
         <div class="col-6">
           <label for="endDate">Treatment End Date</label>
-          <input type="date" class="form-control" id="endDate" placeholder="Example input">
+          <input type="date" class="form-control" id="endDate" formControlName="endDate" placeholder="Example input">
         </div>
       </div>
       <div class="form-row">
         <div class="col-6">
           <label for="clinicName">Click Name</label>
-          <input type="text" class="form-control" id="clinicName" placeholder="Example input">
+          <input type="text" class="form-control" id="clinicName" formControlName="clinicName" placeholder="Example input">
         </div>
         <div class="col-6">
           <label for="clinicPinCode">Clinic pin Code</label>
-          <input type="text" class="form-control" id="clinicPinCode" placeholder="Example input">
+          <input type="text" class="form-control" id="clinicPinCode" formControlName="clinicPinCode" placeholder="Example input">
         </div>
       </div>
       <div class="form-row">
+       
         <div class="col-6">
-          <label for="doctorNo">Doctor Registration No.</label>
-          <input type="text" class="form-control" id="doctorNo" placeholder="Example input">
+          <label for="regNo">Registration Number</label>
+          <input type="text" class="form-control" id="regNo" formControlName="regNo" placeholder="Example input">
         </div>
+        
+      </div>
+      <div class="form-row">
+       
         <div class="col-6">
           <label for="doctorName">Name of treating Doctor</label>
-          <input type="text" class="form-control" id="doctorName" placeholder="Example input">
+          <input type="text" class="form-control" id="doctorName" formControlName="doctorName" placeholder="Example input">
+        </div>
+        <div class="col-6">
+          <label for="claimAmount">Claimed Amount</label>
+          <input type="text" class="form-control" id="claimAmount" formControlName="claimAmount" placeholder="">
         </div>
       </div>
 
     </div>
     <div class="card-footer">
 
-      <button type="submit" class="btn btn-success font-weight-bold">Submit&nbsp;&nbsp;<i class="fa fa-paper-plane"
+      <button type="submit" class="btn btn-success font-weight-bold" (click)="onSubmit()">Submit&nbsp;&nbsp;<i class="fa fa-paper-plane"
           aria-hidden="true"></i></button>
     </div>
   </form>

@@ -30,18 +30,7 @@
               <td>{{loginUserData.contactNumber}}</td>
             </tr>
           </tbody>
-          <tbody>
-            <tr>
-              <th scope="row">Address:</th>
-              <td>-</td>
-            </tr>
-          </tbody>
-          <tbody>
-            <tr>
-              <th scope="row">Nuber of purchased policy:</th>
-              <td>-</td>
-            </tr>
-          </tbody>
+          
         </table>
       </div>
     </div>
@@ -56,40 +45,27 @@
         <table class="table">
           <thead>
             <tr>
-              <th scope="row">Member Name:</th>
-              <td>Ayushi</td>
+              
+              <th scope="row">Policy Name</th>
+              <th scope="row">Policy Description</th>
+              <th scope="row">Policy Date</th>
+              <th scope="row">Policy Duration </th>
+              <th scope="row">Policy Amount</th>
+
+              
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th scope="row">Member DOB:</th>
-              <td>Mark</td>
+            <tr *ngFor="let data of userPolicies" >
+              
+              <td > {{data.code}}</td>
+              <td > {{data.description}}</td>
+              <td >{{data.date}} </td>
+              <td > {{data.duration}}</td>
+              <td >{{data.amount}}</td>
             </tr>
           </tbody>
-          <tbody>
-            <tr>
-              <th scope="row">Member Age:</th>
-              <td>Mark</td>
-            </tr>
-          </tbody>
-          <tbody>
-            <tr>
-              <th scope="row">Policy type:</th>
-              <td>Mark</td>
-            </tr>
-          </tbody>
-          <tbody>
-            <tr>
-              <th scope="row">Insurance Value:</th>
-              <td>Mark</td>
-            </tr>
-          </tbody>
-          <tbody>
-            <tr>
-              <th scope="row">Policy Status:</th>
-              <td>Mark</td>
-            </tr>
-          </tbody>
+          
         </table>
       </div>
     </div>

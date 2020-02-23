@@ -7,25 +7,28 @@
       <thead>
         <tr>
           <th scope="col">Claim Type</th>
-          <th scope="col">Tracking Number</th>
+          <th scope="col">Description</th>
           <th scope="col">Claim Number</th>
-          <th scope="col">Claim registered On</th>
-          <th scope="col">Patient Name</th>
-          <th scope="col">Relation Type</th>
+          <th scope="col">Start Date</th>
+          <th scope="col"> End Date</th>
           <th scope="col">Policy Status</th>
           <th scope="col">Claimed amount</th>
-          <th scope="col">Approved Amount</th>
+         
 
 
 
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
+        <tr *ngFor="let data of userClaimedData">
+          
+          <td>{{data.nature}}</td>
+          <td>{{data.description}}</td>
+          <td>{{data.regNo}}</td>
+          <td>{{data.startDate}}</td>
+          <td>{{data.endDate}}</td>
+          <td>{{data.status}}</td>
+          <td>{{data.claimAmount}}</td>
         </tr>
         </tbody>
         </table>

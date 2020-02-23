@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
+import { ToastyModule } from 'ng2-toasty';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './auth/login/login.component';
@@ -44,6 +45,7 @@ import { ErrorComponent } from './error/error.component';
     BrowserModule,
     ReactiveFormsModule,
     FormsModule,
+    ToastyModule,
     HttpClientModule,
     AppRoutingModule
   ],

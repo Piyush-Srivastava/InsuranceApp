@@ -12,6 +12,7 @@ import { Policy } from '../../models/policy';
 export class SpecialEventsComponent implements OnInit {
 
   specialEvents: Array<Policy> = []
+  policyData={};
 
   constructor(private _eventService: PolicyService,
     private _router: Router) { }
@@ -35,6 +36,13 @@ export class SpecialEventsComponent implements OnInit {
   }
 
   buyPolicy(policy: Policy) {
+    this._eventService.addPolicy(this.policyData).subscribe(
+      res => {
+        localStorage.setItem('token', res.token);
+        this._router.navigate(['/payment']);
+      },
+      err => console.log(err)
+    );
     console.log(Policy)
     this._router.navigate(['/payment'], {
       queryParams: {

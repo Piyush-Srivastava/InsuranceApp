@@ -20,9 +20,17 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.loginUserData = this.auth.loggedinUser;
-
+    
     this.policyService.getUserPolicies().subscribe(res => {
+      this.userPolicies=res;
+      
       console.log(res);
+      
     });
+   
+
+
+    
+    
   }
 }
