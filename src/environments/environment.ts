@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  API_URL: 'https://fierce-brook-86877.herokuapp.com/api/'
+  API_URL: 'https://jmdinsuranceapp.azurewebsites.net/api/'
 };
