@@ -21,7 +21,7 @@
     "gravatar": "^1.8.0",
     "http-proxy-middleware": "^0.20.0",
     "jsonwebtoken": "^8.5.1",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "mongoose": "^5.8.7",
     "nodemailer": "^6.4.2",
     "react-moment": "^0.9.7",
